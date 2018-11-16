@@ -1,0 +1,49 @@
+/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+import java.util.ArrayList;
+public class Solution {
+    public int run(TreeNode root) {
+    	if (root == null) {
+    		return 0;
+    	}
+    	int result = 1;
+    	int level = 1;
+    	int count = 0;
+    	int levelNumber = 1;
+    	int nextlevelNumber = 0;
+    	ArrayList<TreeNode> list = new ArrayList<>();
+    	list.add(root);
+    	while (!list.isEmpty()) {
+//    		到达下一层
+    		if (levelNumber == count) {
+    			level++;
+    			levelNumber = nextlevelNumber;
+//    			清零
+    			count = 0;
+    			nextlevelNumber = 0;
+    		}
+    		count++;
+    		TreeNode temp = list.remove(0);
+    		if (temp.left != null) {
+    			list.add(temp.left);
+    			nextlevelNumber++;
+    		}
+    		if (temp.right != null) {
+    			list.add(temp.right);
+    			nextlevelNumber++;
+    		}
+    		if (temp.left == null && temp.right == null) {
+    			result = level;
+    			break;
+    		}
+    	}
+    	return result;
+    }
+}
