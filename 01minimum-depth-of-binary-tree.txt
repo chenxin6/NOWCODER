@@ -21,11 +21,11 @@ public class Solution {
     	ArrayList<TreeNode> list = new ArrayList<>();
     	list.add(root);
     	while (!list.isEmpty()) {
-//    		µ½´ïÏÂÒ»²ã
+//    		åˆ°è¾¾ä¸‹ä¸€å±‚
     		if (levelNumber == count) {
     			level++;
     			levelNumber = nextlevelNumber;
-//    			ÇåÁã
+//    			æ¸…é›¶
     			count = 0;
     			nextlevelNumber = 0;
     		}
