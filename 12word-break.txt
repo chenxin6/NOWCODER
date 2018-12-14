@@ -1,0 +1,27 @@
+import java.util.Set;
+public class Solution {
+    public boolean wordBreak(String s, Set<String> dict) {
+        int[] arr = new int[s.length()]; 
+    	return myMethod(s, dict, 0, arr);
+    }
+    public boolean myMethod(String s, Set<String> dict, int index, int[] arr) {
+    	boolean result = false;
+    	if (index == s.length()) {
+    		return true;
+    	}
+    	if (arr[index] != 0) {
+    		return arr[index] == 1;
+    	}
+    	for (int i = index + 1; i <= s.length(); i++) {
+    		String str = s.substring(index, i);
+    		if (dict.contains(str)) {
+    			if (myMethod(s, dict, i, arr)) {
+    				result = true;
+    				break;
+    			}
+    		}
+    	}
+    	arr[index] = result? 1 : -1;
+    	return result;
+    }
+}

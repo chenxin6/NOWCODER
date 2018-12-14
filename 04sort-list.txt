@@ -1,0 +1,90 @@
+/**
+ * Definition for singly-linked list.
+ * class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+public class Solution {
+    public ListNode sortList(ListNode head) {
+    	if (head == null || head.next == null) {
+    		return head;
+    	}
+    	int n = 1;
+    	ListNode temp = head;
+    	while (temp.next != null) {
+    		n++;
+    		temp = temp.next;
+    	} 
+    	mergeList(head, 0, n - 1);
+    	return head;
+    }
+    public void mergeList(ListNode head, int left, int right) {
+    	if (left == right) {
+    		return;
+    	}
+    	int mid = (left + right) / 2;
+    	mergeList(head, left, mid);
+    	mergeList(head, mid + 1, right);
+    	merge(head, left, mid, right);
+    }
+    public void merge(ListNode head, int left, int mid, int right) {
+    	ListNode l = head;
+    	ListNode r = head;
+    	int i = left;
+    	int j = mid + 1;
+    	ListNode temp = new ListNode(0);
+    	ListNode begin = temp;
+    	while (left > 0) {
+    		left--;
+    		l = l.next;
+    	}
+    	ListNode start = l;
+    	while (mid >= 0) {
+    		mid--;
+    		r = r.next;
+    	}
+    	left = i;
+    	mid = j - 1;
+    	while (i <= mid && j <= right) {
+    		if (l.val <= r.val) {
+    			temp.val = l.val;
+    			l = l.next;
+    			i++;
+    		} else {
+    			temp.val = r.val;
+    			r = r.next;
+    			j++;
+    		}
+    		temp.next = new ListNode(0);
+    		temp = temp.next;
+    	}
+    	while (i <= mid) {
+    		temp.val = l.val;
+    		l = l.next;
+    		i++;
+    		if (i <= mid) {    			
+    			temp.next = new ListNode(0);
+    		}
+    		temp = temp.next;
+    	}
+    	while (j <= right) {
+    		temp.val = r.val;
+    		r = r.next;
+    		j++;
+    		if (j <= right) {
+    			temp.next = new ListNode(0);    			
+    		}    			
+    		temp = temp.next;
+    	}
+    	while (begin != null) {
+    		start.val = begin.val;
+    		start = start.next;
+    		begin = begin.next;
+    	}
+    }
+}
