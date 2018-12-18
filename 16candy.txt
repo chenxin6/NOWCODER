@@ -1,0 +1,44 @@
+public class Solution {
+    public int candy(int[] ratings) {
+    	if (ratings == null || ratings.length == 0) {
+    		return 0;
+    	} else if (ratings.length == 1) {
+    		return 1;
+    	}
+    	int result = 1;
+    	int i = 0;
+    	int numUp = 0;
+    	int numEqual = 0;
+    	int numDown = 0;
+    	while (i < ratings.length - 1) {
+    		while (i < ratings.length - 1 && ratings[i] < ratings[i + 1]) {
+    			i++;
+    			numUp++;
+    		}
+    		numUp++;    			
+    		result += (numUp + 1) * numUp / 2 - 1; 
+    		while (i < ratings.length - 1 && ratings[i] == ratings[i + 1]) {
+    			i++;
+    			numEqual++;
+    		}
+    		result += numEqual;
+    		while (i < ratings.length - 1 && ratings[i] > ratings[i + 1]) {
+    			i++;
+    			numDown++;
+    		}
+    		if (numEqual != 0) {
+    			result += (numDown + 1) * numDown / 2;
+    			result += numDown;
+    		} else {
+    			result += (numDown + 1) * numDown / 2;
+    			if (numDown >= numUp) {
+    				result += numDown + 1 - numUp;
+    			}
+    		}
+            	numUp = 0;
+        	numEqual = 0;
+        	numDown = 0;
+    	}
+    	return result;
+    }
+}

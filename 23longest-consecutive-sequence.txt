@@ -1,0 +1,31 @@
+import java.util.HashSet;
+public class Solution {
+    public int longestConsecutive(int[] num) {
+    	if (num.length == 0 || num.length == 1) {
+    		return num.length;
+    	}
+        HashSet<Integer> set = new HashSet<>();
+        for (int i = 0; i < num.length; i++) {
+        	set.add(num[i]);
+        } 
+        int result = 1;
+        int count = 1;
+        for (int n : num) {
+			if (set.remove(n)) {
+				int temp = n;
+				count = 1;
+				while (set.remove(--temp)) {
+					count++;
+				}
+				temp = n;
+				while (set.remove(++temp)) {
+					count++;
+				}
+				if (count > result) {
+					result = count;
+				}
+			}
+		}
+        return result;
+    }
+}

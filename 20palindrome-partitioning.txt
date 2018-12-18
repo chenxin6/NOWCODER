@@ -1,0 +1,43 @@
+import java.util.ArrayList;
+public class Solution {
+    public ArrayList<ArrayList<String>> partition(String s) {
+        return myMethod2(s, 0);
+    }
+    
+    public ArrayList<Integer> myMethod(String s, int start) {
+    	ArrayList<Integer> list = new ArrayList<>();
+    	int end = s.length() - 1;
+    	while (start != end) {
+    		int tempStart = start;
+    		int tempEnd = end;
+    		while (tempStart < tempEnd && s.charAt(tempStart) == s.charAt(tempEnd)) {
+    			tempStart++;
+    			tempEnd--;
+    		}
+    		if (tempStart >= tempEnd) {
+    			list.add(end);
+    		} 
+    		end--;
+    	}
+    	list.add(end);
+    	return list;
+    }
+    
+    public ArrayList<ArrayList<String>> myMethod2(String s, int start) {
+    	ArrayList<ArrayList<String>> result = new ArrayList<>();
+    	if (start >= s.length()) {
+    		result.add(new ArrayList<String>());
+    		return result;
+    	}
+    	ArrayList<Integer> list = myMethod(s, start);
+    	for (int i = list.size() - 1; i >= 0; i--) {
+    		int index = list.get(i);
+    		ArrayList<ArrayList<String>> temp = myMethod2(s, index + 1);
+			for (ArrayList<String> arrayList : temp) {
+				arrayList.add(0, s.substring(start, index + 1));
+				result.add(arrayList);
+			}
+		}
+    	return result;
+    }
+}

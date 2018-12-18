@@ -1,0 +1,48 @@
+import java.util.ArrayList;
+public class Solution {
+    public int minCut(String s) {
+    	if (s.length() == 1) {
+    		return 0;
+    	}
+    	int[] arr = new int[s.length()];
+        return myMethod2(s, 0, arr) - 1;
+    }
+    
+    public int myMethod2(String s, int start, int[] arr) {
+    	if (start >= s.length()) {
+    		return 0;
+    	}
+    	if (arr[start] != 0) {
+    		return arr[start];
+    	}
+    	int result = Integer.MAX_VALUE;
+    	ArrayList<Integer> list = myMethod(s, start);
+    	for (Integer index : list) {
+    		int temp = 1 + myMethod2(s, index + 1, arr);
+    		if (temp < result) {
+    			result = temp;
+    		}
+		}
+    	arr[start] = result;
+    	return result;
+    }
+    
+    public ArrayList<Integer> myMethod(String s, int start) {
+    	ArrayList<Integer> list = new ArrayList<>();
+    	int end = s.length() - 1;
+    	while (start != end) {
+    		int tempStart = start;
+    		int tempEnd = end;
+    		while (tempStart < tempEnd && s.charAt(tempStart) == s.charAt(tempEnd)) {
+    			tempStart++;
+    			tempEnd--;
+    		}
+    		if (tempStart >= tempEnd) {
+    			list.add(end);
+    		} 
+    		end--;
+    	}
+    	list.add(end);
+    	return list;
+    }
+}
