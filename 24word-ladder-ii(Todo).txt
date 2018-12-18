@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+// 并没有完成，因为输出的顺序不对
 class Node {
 	String val = null;
 	ArrayList<Node> son = new ArrayList<>();
