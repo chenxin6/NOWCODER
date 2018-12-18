@@ -1,0 +1,106 @@
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+class Node {
+	String val = null;
+	ArrayList<Node> son = new ArrayList<>();
+	public Node() {}
+	public Node(String val) {
+		this.val = val;
+	}
+}
+public class Solution {
+    public static ArrayList<ArrayList<String>> findLadders(String start, String end, HashSet<String> dict) {
+    	if (myMethod(start, end)) {
+    		ArrayList<ArrayList<String>> result = new ArrayList<>();
+    		result.add(new ArrayList<>());
+    		result.get(0).add(start);
+    		result.get(0).add(end);
+    		return result;
+    	}
+    	dict.remove(start);
+    	dict.remove(end);
+    	Iterator<String> it = dict.iterator();
+    	String[] strList = new String[dict.size()];
+    	boolean[] arr = new boolean[dict.size()];
+    	Node root = new Node(start);
+    	int index = 0;
+    	ArrayList<String> endList = new ArrayList<>();
+    	while (it.hasNext()) {
+    		String temp = it.next();
+    		if (myMethod(end, temp)) {
+    			endList.add(temp);
+    		}	
+    		strList[index] = temp;
+    		index++;
+    	}
+    	if (start.equals(end)) {
+    		ArrayList<ArrayList<String>> result = new ArrayList<>();
+    		result.add(endList);
+    		return result;
+    	}
+    	ArrayList<Node> list = new ArrayList<>();
+    	list.add(root);
+    	while (!list.isEmpty()) {
+    		Node temp = list.remove(0);
+    		for (int i = 0; i < index; i++) {
+    			if (myMethod(temp.val, strList[i])) {
+    				Node tempNode = new Node(strList[i]);
+    				temp.son.add(tempNode);
+    				if (!arr[i] && !endList.contains(strList[i])) {    					
+    					arr[i] = true;
+    					list.add(tempNode);
+    				}
+    			}
+    		}
+    	}
+    	ArrayList<ArrayList<String>> result = myMethod2(root);
+    	int min = Integer.MAX_VALUE;
+    	for (ArrayList<String> arrayList : result) {
+			if (arrayList.size() < min) {
+				min = arrayList.size();
+			}
+		}
+    	ArrayList<ArrayList<String>> finalResult = new ArrayList<>();
+    	for (ArrayList<String> arrayList : result) {
+			if (arrayList.size() == min && arrayList.size() != 1 && endList.contains(arrayList.get(arrayList.size() - 1))) {
+				arrayList.add(end);
+				finalResult.add(arrayList);
+			}
+		}
+    	return finalResult;
+    }
+
+    public static ArrayList<ArrayList<String>> myMethod2(Node root) {
+    	ArrayList<ArrayList<String>> result = new ArrayList<>();
+    	if (root.son.size() == 0) {
+    		result.add(new ArrayList<>());
+    		result.get(0).add(root.val);
+    		return result;
+    	}
+    	for (Node node : root.son) {
+    		result.addAll(myMethod2(node));
+		}
+    	for (ArrayList<String> arrayList : result) {
+			arrayList.add(0, root.val);
+		}
+    	return result;
+    }
+    
+    public static boolean myMethod(String str1, String str2) {
+    	boolean result = false;
+    	int count = 0;
+    	for (int i = 0; i < str1.length(); i++) {
+    		if (str1.charAt(i) != str2.charAt(i)) {
+    			count++;
+    			if (count >= 2) {
+    				result = false;
+    				break;
+    			} else if (count == 1) {
+    				result = true;
+    			}
+    		}
+    	}
+    	return result;
+    }
+}
